@@ -1,0 +1,27 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+{% block title %} Projects  {% endblock %}
+{% block body %}
+  <!-- Start Body -->
+  <div class="container">
+    <div class="add-product pt-5 text-end">
+      <a href="" class="fs-4 text-decoration-none " style="color: #5585b5;"><i class="fa-regular fa-square-plus"></i></a>
+    </div>
+    <div class="row row-cols-lg-4 row-cols-md-2 row-cols-1 pt-3 pb-5">
+      {% for project in projects %}
+      <div class="card border-0 mb-3 ">
+        <img src="" class="card-img-top rounded-3 mb-2" height="370">
+        <div class="card-body text-center p-0 ">
+            <h5 class="card-title">{{project.name}}</h5>
+            <div class="d-flex justify-content-between  ">
+              <a href="" style="color: #5585b5;"><i class="fa-solid fa-eye"></i></a>
+                <a href="" style="color: #5585b5;"><i class="fa-regular fa-pen-to-square"></i></a>
+                <a href="" class="text-danger"><i class="fa-solid fa-trash"></i></a>
+            </div>
+          </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  <!-- End Body -->
+{% endblock %}
