@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Sign Up Form by Colorlib</title>
+    <title>Sign Up Form</title>
 
     <!-- Font Icon -->
     {#    <link rel="stylesheet" href="fonts/material-icon/css/material-design-iconic-font.min.css">#}
@@ -27,39 +27,52 @@
                 <div class="signup-form">
                     <h2 class="form-title">Sign up</h2>
                     <form method="POST" class="register-form" id="register-form">
+                        {% csrf_token %}
                         <div class="form-group">
-                            <label for="name"><i class="zmdi zmdi-account material-icons-name"></i></label>
-                            <input type="text" name="First_name" id="First_name" placeholder="First name"/>
+                            <label for="First_name"><i class="zmdi zmdi-account material-icons-name"></i></label>
+                            <input type="text" name="first_name" id="First_name" placeholder="First name" required
+                                   minlength="3" pattern="[A-Za-z]+" title="First name must contain only letters"/>
                         </div>
                         <div class="form-group">
-                            <label for="name"><i class="zmdi zmdi-account material-icons-name"></i></label>
-                            <input type="text" name="Last_name" id="Last_name" placeholder="Last name"/>
+                            <label for="Last_name"><i class="zmdi zmdi-account material-icons-name"></i></label>
+                            <input type="text" name="last_name" id="Last_name" placeholder="Last name" required
+                                   minlength="3" pattern="[A-Za-z]+" title="Last name must contain only letters"/>
                         </div>
                         <div class="form-group">
                             <label for="email"><i class="zmdi zmdi-email"></i></label>
-                            <input type="email" name="email" id="email" placeholder="Your Email"/>
+                            <input type="email" name="email" id="email" placeholder="Your Email" required
+                                   pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{3,}$"
+                                   title="Email must contain @ and .com"/>
                         </div>
                         <div class="form-group">
                             <label for="pass"><i class="zmdi zmdi-lock"></i></label>
-                            <input type="password" name="pass" id="pass" placeholder="Password"/>
+                            <input type="password" name="password" id="pass" placeholder="Password" required
+                                   minlength="5" pattern="^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{5,}$"
+                                   title="Password must be 5 characters and contains letter, a symbol, and a number"/>
                         </div>
                         <div class="form-group">
                             <label for="re-pass"><i class="zmdi zmdi-lock-outline"></i></label>
-                            <input type="password" name="re_pass" id="re_pass" placeholder="Repeat your password"/>
+                            <input type="password" name="re_password" id="re_pass" placeholder="Repeat your password"
+                                   required minlength="5"
+                                   pattern="^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{5,}$"
+                                   title="The password must match the original password"/>
                         </div>
                         <div class="form-group">
                             <label for="mobile_phone"><i class="zmdi zmdi-phone"></i></label>
-                            <input type="tel" name="mobile_phone" id="mobile_phone" placeholder="Mobile phone"/>
+                            <input type="tel" name="mobile_phone" id="mobile_phone" placeholder="Mobile phone" required
+                                   pattern="^(011|010|012|015)\d{8}$"
+                                   title="Mobile phone must be 11 digits and follow Egyptian mobile number formats (011, 010, 012, or 015)"/>
                         </div>
                         <div class="form-group">
                             <label for="Profile_Picture"><i class="zmdi zmdi-image"></i></label>
-                            <input type="file" name="profile_image" id="Profile_Picture" placeholder="Upload Image"/>
+                            <input type="file" name="profile_image" id="Profile_Picture" accept="image/*"
+                                   placeholder="Upload Image"/>
                         </div>
-{#                        <div class="form-group">#}
-{#                            <input type="checkbox" name="agree-term" id="agree-term" class="agree-term"/>#}
-{#                            <label for="agree-term" class="label-agree-term"><span><span></span></span>I agree all#}
-{#                                statements in <a href="#" class="term-service">Terms of service</a></label>#}
-{#                        </div>#}
+                        {#                        <div class="form-group">#}
+                        {#                            <input type="checkbox" name="agree-term" id="agree-term" class="agree-term"/>#}
+                        {#                            <label for="agree-term" class="label-agree-term"><span><span></span></span>I agree all#}
+                        {#                                statements in <a href="#" class="term-service">Terms of service</a></label>#}
+                        {#                        </div>#}
                         <div class="form-group form-button">
                             <input type="submit" name="signup" id="signup" class="form-submit" value="Register"/>
                         </div>
@@ -82,5 +95,34 @@
 <script src="{% static 'user/colorlib-regform-7/vendor/jquery/jquery.min.js' %}"></script>
 {#    <script src="js/main.js"></script>#}
 <script src="{% static 'user/colorlib-regform-7/js/main.js' %}"></script>
-</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
+</body>
 </html>
+
+
+<div class="form-group">
+    <label for="email"><i class="zmdi zmdi-email"></i> Email</label>
+    <input type="email" name="email" id="email" placeholder="Your Email" required
+           pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"/>
+</div>
+<div class="form-group">
+    <label for="pass"><i class="zmdi zmdi-lock"></i> Password</label>
+    <input type="password" name="password" id="pass" placeholder="Password" required minlength="5"
+           pattern="^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{5,}$"
+           title="Password must be 5 characters and contain a letter, a symbol, and a number"/>
+</div>
+<div class="form-group">
+    <label for="re-pass"><i class="zmdi zmdi-lock-outline"></i> Repeat Password</label>
+    <input type="password" name="re_password" id="re_pass" placeholder="Repeat your password" required minlength="5"
+           pattern="^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{5,}$"
+           title="Repeat password must be 5 characters and contain letters, a symbol, and a number"/>
+</div>
+<div class="form-group">
+    <label for="mobile_phone"><i class="zmdi zmdi-phone"></i> Mobile Phone</label>
+    <input type="tel" name="mobile_phone" id="mobile_phone" placeholder="Mobile phone" required
+           pattern="^(011|010|012|015)\d{8}$"
+           title="Mobile phone must be 11 digits and follow Egyptian mobile number formats (011, 010, 012, or 015)"/>
+</div>
+<div class="form-group">
+    <label for="Profile_Picture"><i class="zmdi zmdi-image"></i> Profile Picture</label>
+    <input type="file" name="profile_image" id="Profile_Picture" accept="image/*" placeholder="Upload Image"/>
+</div>
