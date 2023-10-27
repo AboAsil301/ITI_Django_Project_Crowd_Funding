@@ -12,8 +12,11 @@
     <link rel="stylesheet"
           href="{% static 'user/colorlib-regform-7/fonts/material-icon/css/material-design-iconic-font.min.css' %}">
     <!-- Main css -->
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'fontawesome/css/all.min.css' %}">
     {#    <link rel="stylesheet" href="css/style.css">#}
     <link rel="stylesheet" href="{% static 'user/colorlib-regform-7/css/style.css' %}">
+
 
 </head>
 <body>
@@ -26,8 +29,19 @@
             <div class="signup-content">
                 <div class="signup-form">
                     <h2 class="form-title">Sign up</h2>
-                    <form method="POST" class="register-form" id="register-form">
+                     <!-- Add error message placeholders for each field -->
+                        {% if messages %}
+                            {% for message in messages %}
+{#                                <div class=" ">{{ message }}</div>#}
+                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+    {{ message }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+                            {% endfor %}
+                        {% endif %}
+                    <form method="POST" enctype="multipart/form-data" class="register-form" id="register-form">
                         {% csrf_token %}
+
                         <div class="form-group">
                             <label for="First_name"><i class="zmdi zmdi-account material-icons-name"></i></label>
                             <input type="text" name="first_name" id="First_name" placeholder="First name" required
@@ -81,7 +95,7 @@
                 <div class="signup-image">
                     {#                        <figure><img src="images/signup-image.jpg" alt="sing up image"></figure>#}
                     <figure><img src="{% static 'user/colorlib-regform-7/images/signup-image.jpg' %}" class="col-6"
-                                 width="300"/></figure>
+                                 width="500"/></figure>
                     <a href="{% url 'login' %}" class="signup-image-link">I am already member</a>
                 </div>
             </div>
@@ -95,34 +109,7 @@
 <script src="{% static 'user/colorlib-regform-7/vendor/jquery/jquery.min.js' %}"></script>
 {#    <script src="js/main.js"></script>#}
 <script src="{% static 'user/colorlib-regform-7/js/main.js' %}"></script>
+<script src="{% static 'bootstrap/js/bootstrap.js' %}"></script>
+
 </body>
 </html>
-
-
-<div class="form-group">
-    <label for="email"><i class="zmdi zmdi-email"></i> Email</label>
-    <input type="email" name="email" id="email" placeholder="Your Email" required
-           pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"/>
-</div>
-<div class="form-group">
-    <label for="pass"><i class="zmdi zmdi-lock"></i> Password</label>
-    <input type="password" name="password" id="pass" placeholder="Password" required minlength="5"
-           pattern="^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{5,}$"
-           title="Password must be 5 characters and contain a letter, a symbol, and a number"/>
-</div>
-<div class="form-group">
-    <label for="re-pass"><i class="zmdi zmdi-lock-outline"></i> Repeat Password</label>
-    <input type="password" name="re_password" id="re_pass" placeholder="Repeat your password" required minlength="5"
-           pattern="^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{5,}$"
-           title="Repeat password must be 5 characters and contain letters, a symbol, and a number"/>
-</div>
-<div class="form-group">
-    <label for="mobile_phone"><i class="zmdi zmdi-phone"></i> Mobile Phone</label>
-    <input type="tel" name="mobile_phone" id="mobile_phone" placeholder="Mobile phone" required
-           pattern="^(011|010|012|015)\d{8}$"
-           title="Mobile phone must be 11 digits and follow Egyptian mobile number formats (011, 010, 012, or 015)"/>
-</div>
-<div class="form-group">
-    <label for="Profile_Picture"><i class="zmdi zmdi-image"></i> Profile Picture</label>
-    <input type="file" name="profile_image" id="Profile_Picture" accept="image/*" placeholder="Upload Image"/>
-</div>

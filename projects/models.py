@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils import timezone
-from user.models import CustomUser
-
+# from user.models import CustomUser
+from user.models import User
 # Create your models here.
 
 #			        Categone                           #
@@ -27,7 +27,7 @@ class Projects(models.Model):
     created_at = models.DateTimeField(default=timezone.now)
     selected_at_by_admin = models.DateTimeField(default=timezone.now)
     category = models.ForeignKey(Categories, on_delete=models.CASCADE)
-    owner = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.title
@@ -63,7 +63,7 @@ class Comments(models.Model):
     comment = models.TextField()
     project = models.ForeignKey(
         Projects, on_delete=models.CASCADE)
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return (f"{self.user.first_name} {self.user.last_name} on {self.project.title}")
@@ -76,7 +76,7 @@ class Replies(models.Model):
     replie = models.TextField()
     comment = models.ForeignKey(
         Comments, on_delete=models.CASCADE, related_name='replies')
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return (f"{self.user.first_name} {self.user.last_name} on Commint id = {self.comment.id}")
@@ -87,7 +87,7 @@ class Replies(models.Model):
 
 class ReportsProject(models.Model):
     reason = models.TextField(blank=True)
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     project = models.ForeignKey(Projects, on_delete=models.CASCADE)
 
     def __str__(self):
@@ -99,7 +99,7 @@ class ReportsProject(models.Model):
 
 class ReportsComment(models.Model):
     reason = models.TextField(blank=True)
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     comment = models.ForeignKey(Comments, on_delete=models.CASCADE)
 
     def __str__(self):
@@ -112,7 +112,7 @@ class ReportsComment(models.Model):
 class Donations(models.Model):
     paid_up = models.IntegerField()
     project = models.ForeignKey(Projects, on_delete=models.CASCADE)
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return (f"{self.user} Donate to {self.project}")
@@ -124,7 +124,7 @@ class Donations(models.Model):
 class Rates(models.Model):
     rate = models.IntegerField()
     project = models.ForeignKey(Projects, on_delete=models.CASCADE)
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return (f"{self.user} rate to {self.project}")
