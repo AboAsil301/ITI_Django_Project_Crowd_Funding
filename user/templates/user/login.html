@@ -12,6 +12,8 @@
     <link rel="stylesheet"
           href="{% static 'user/colorlib-regform-7/fonts/material-icon/css/material-design-iconic-font.min.css' %}">
     <!-- Main css -->
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'fontawesome/css/all.min.css' %}">
     {#    <link rel="stylesheet" href="css/style.css">#}
     <link rel="stylesheet" href="{% static 'user/colorlib-regform-7/css/style.css' %}">
 
@@ -25,8 +27,9 @@
         <div class="container">
             <div class="signin-content">
                 <div class="signin-image">
-{#                    <figure><img src="images/signin-image.jpg" alt="sing up image"></figure>#}
-                    <figure><img src="{% static 'user/colorlib-regform-7/images/signin-image.jpg' %}" alt="sing up image"></figure>
+                    {#                    <figure><img src="images/signin-image.jpg" alt="sing up image"></figure>#}
+                    <figure><img src="{% static 'user/colorlib-regform-7/images/signin-image.jpg' %}"
+                                 alt="sing up image"></figure>
                     <a href="{% url 'register' %}" class="signup-image-link">Forgot Password</a>
                     <a href="{% url 'register' %}" class="signup-image-link">Create an account</a>
 
@@ -34,7 +37,20 @@
 
                 <div class="signin-form">
                     <h2 class="form-title">Log In</h2>
+                    <!-- Add error message placeholders for each field -->
+                    {% if messages %}
+                        {% for message in messages %}
+                            {#                                <div class=" ">{{ message }}</div>#}
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                {{ message }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                        aria-label="Close"></button>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
                     <form method="POST" class="register-form" id="login-form">
+                        {% csrf_token %}
+
                         <div class="form-group">
                             <label for="email"><i class="zmdi zmdi-email"></i></label>
                             <input type="email" name="email" id="email" placeholder="Your Email"/>
@@ -73,5 +89,6 @@
 <script src="{% static 'user/colorlib-regform-7/vendor/jquery/jquery.min.js' %}"></script>
 {#    <script src="js/main.js"></script>#}
 <script src="{% static 'user/colorlib-regform-7/js/main.js' %}"></script>
-</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
+<script src="{% static 'bootstrap/js/bootstrap.js' %}"></script>
+</body>
 </html>

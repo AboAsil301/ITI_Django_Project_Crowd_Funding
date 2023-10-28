@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, HttpResponse
 import re  # Import the 're' module for regular expressions
 from django.contrib import messages
+from django.core.mail import send_mail  # Add this import
 
 from user.models import User
 # Create your views here.
@@ -59,11 +60,42 @@ def register(request):
         user.password = password
         user.mobile_phone = mobile_phone
         user.profile_image = profile_image
+        # user.save()
+        # return redirect('login')
+
+    # return render(request, 'user/registration.html')
+
+        # Generate an activation token
+        user.is_active = False  # Set the user as inactive until they activate their email
         user.save()
-        return redirect('login')
+
+        # Send an activation email to the user
+        activation_token = user.token  # Assuming you have the token property in your User model
+        activation_link = f"http://127.0.0.1:7000/user/activate/{activation_token}/"  # Define your activation link
+
+        subject = 'Activate Your Account'
+        message = f'Click the following link to activate your account:\n{activation_link}'
+        from_email = 'asilmarketo5@gmail.com'  # Change this to your email address
+        recipient_list = [email]
+
+        # Send the email
+        send_mail(subject, message, from_email, recipient_list)
+
+        # Redirect the user to an activation page or display a message
+        return render(request, 'user/activation_instructions.html')
 
     return render(request, 'user/registration.html')
-
-
 def login(request):
     return render(request, "user/login.html")
+
+def activate(request, token):
+    # You may want to add error handling for expired or invalid tokens
+    # For example, check if the token has expired or doesn't match any user in the database
+
+    try:
+        user = User.objects.get(token=token)
+        user.is_active = True
+        user.save()
+        return render(request, 'user/activation_success.html')
+    except User.DoesNotExist:
+        return render(request, 'user/activation_error.html')

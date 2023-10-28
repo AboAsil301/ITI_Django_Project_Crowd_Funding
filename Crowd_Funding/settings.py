@@ -94,8 +94,8 @@ DATABASES = {
         'NAME': 'crowd_funding_2023',
         'USER': 'django',
         'PASSWORD': '207301',
-        'HOST': '127.0.0.1',
-        'PORT': '5432',
+        'HOST': 'localhost',
+        'PORT': '',
     }
 }
 
@@ -143,5 +143,17 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # AUTH_USER_MODEL = "user.CustomUser"
 
+# MEDIA Configuration
 MEDIA_URL = 'media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+
+#
+# # Email Configuration
+#Two-Factor Authentication must be activated, then we create a password for the application
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'  # Change this to your email provider's SMTP server
+EMAIL_PORT = 587  # Change this to the appropriate port for your email provider
+EMAIL_USE_TLS = True  # Change this based on your email provider's requirements
+EMAIL_HOST_USER = 'your email address'  # Your email address
+EMAIL_HOST_PASSWORD = 'your email password (a password for the application from your email)'  # Your email password
