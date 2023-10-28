@@ -6,8 +6,10 @@ from django.utils import timezone
 from django.conf import settings
 import jwt
 from datetime import  timedelta
-
+from django.contrib.auth import authenticate, login as auth_login
 from user.models import User
+
+
 # Create your views here.
 def register(request):
     # print(request)
@@ -56,7 +58,6 @@ def register(request):
             messages.error(request, 'Invalid profile image')
             return redirect('register')
 
-
         user = User()
         user.first_name = first_name
         user.last_name = last_name
@@ -64,10 +65,6 @@ def register(request):
         user.password = password
         user.mobile_phone = mobile_phone
         user.profile_image = profile_image
-        # user.save()
-        # return redirect('login')
-
-    # return render(request, 'user/registration.html')
 
         # Generate an activation token
         user.is_active = False  # Set the user as inactive until they activate their email
@@ -89,8 +86,48 @@ def register(request):
         return render(request, 'user/activation_instructions.html')
 
     return render(request, 'user/registration.html')
+
+
+
 def login(request):
-    return render(request, "user/login.html")
+    if request.method == 'POST':
+        email = request.POST['email']
+        confirm_password = request.POST['password']
+
+        # Check if the user exists and is active
+        try:
+            user = User.objects.get(email=email)
+        except User.DoesNotExist:
+            messages.error(request, 'User not found')
+            return redirect('login')
+
+        if not user.is_active:
+            messages.error(request,
+                           'Your account is not activated yet. Please check your email for activation instructions.')
+            return redirect('login')
+
+        # Authenticate the user
+        # user = authenticate(request, email=email, password=confirm_password)
+
+        if user.password == confirm_password:
+            auth_login(request, user)
+            user.last_login = timezone.now()
+            user.is_verifications = True
+            user.save()
+            return redirect('profile',user_id=user.id)
+            # return HttpResponse(request,"Success")
+        else:
+            messages.error(request, 'Invalid email or password')
+            return redirect('login')
+        # if user is not None:
+        #     auth_login(request, user)
+        #     return redirect('porfile')
+        # else:
+        #     messages.error(request, 'Invalid email or password')
+        #     return redirect('login')
+
+    return render(request, 'user/login.html')
+
 
 def activation_instructions(request):
     return render(request, 'user/activation_instructions.html')
@@ -117,7 +154,6 @@ def activate(request, token):
             messages.error(request, 'Activation link has expired.')
             return redirect('activation_error')
 
-
         # Token is valid, activate the user
         user.is_active = True
         user.save()
@@ -139,3 +175,8 @@ def activate(request, token):
         # return render(request, 'user/activation_error.html', {'error_message': 'User not found.'})
         messages.error(request, 'User not found.')
         return redirect('activation_error')
+
+
+def profile(request,user_id):
+    user = User.objects.get(id=user_id)
+    return render(request, 'user/profile.html/', {'user': user})

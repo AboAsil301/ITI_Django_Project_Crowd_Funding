@@ -9,4 +9,6 @@ urlpatterns = [
     path('activate/<str:token>/', activate, name='activate'),
     path('activation_success/', activation_success, name='activation_success'),
     path('activation_error/', activation_error, name='activation_error'),
+    path('profile/<int:user_id>', profile, name='profile'),
+
 ]

@@ -65,7 +65,7 @@ class User(models.Model):
     )
 
     # Additional Data
-    country = models.CharField(max_length=30, null=True, blank=True)
+    country = models.CharField(max_length=30, null=True, blank=True , default='Egypt')
     Birth_date = models.DateField(null=True, blank=True)
     facebook_profile = models.URLField(max_length=3000, null=True, blank=True)
     is_verifications = models.BooleanField(default=False)

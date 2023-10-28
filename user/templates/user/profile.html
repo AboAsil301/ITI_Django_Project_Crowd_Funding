@@ -1,0 +1,100 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+{% block title %}  profile {% endblock %}
+{% block body %}
+
+ <!-- Start Body -->
+  <div class="container p-5 my-5">
+    <div class="row">
+      <!-- Start Basic Info -->
+      <div class="col-3 shadow-lg py-5 text-center rounded-3">
+       <div class="image">
+             <img src="{%if user.profile_image %}{{user.profile_image.url}} {%else%} {%static 'user/colorlib-regform-7/images/user-placeholder-image.jpeg' %} {%endif%}"   class="rounded-3" style="width: 150px; height: 150px; margin-top: 20px; margin-bottom: 20px;" width="130" height="130" />
+       </div>
+
+        <div class="basic-info my-4">
+          <p class="fs-5">{{user.first_name}} {{user.last_name}}</p>
+        </div>
+        <hr class="mx-5"/>
+        <div class="action py-4">
+          <a href="" class="btn text-white px-4" style="background-color: #5585b5;">Edit Profile <i class="fa-solid fa-wand-magic-sparkles"></i></a>
+          <br /> <br />
+          <a href="" class="btn btn-danger">Delete Profile <i class="fa-solid fa-user-xmark"></i></a>
+        </div>
+      </div>
+      <!-- End Basic Info -->
+      <!-- Start Full Info -->
+      <div class="offset-1 col-8 d-flex flex-column align-items-center">
+        <h2 class="text-start mb-5">Profile Information</h2>
+        <table class="table table-borderless shadow-lg rounded-3">
+            <tr>
+            <td class="border-0 p-4 "><strong>mobile phone: </strong></td>
+            <td class="border-0 p-4 " style="background-color: #5585b5; color: white">{{user.mobile_phone}}</td>
+          </tr>
+          <tr>
+            <td class="border-0 p-4"><strong>Email: </strong></td>
+            <td class="border-0 p-4" style="background-color: #5585b5; color: white; border-bottom-right-radius: 0.5rem">{{user.email}}</td>
+          </tr>
+          <tr>
+            <td class="border-0 p-4 "><strong>Country: </strong></td>
+            <td class="border-0 p-4 " style="background-color: #5585b5; color: white; border-top-right-radius: 0.5rem">
+                {% if user.country %}
+                {{ user.country }}
+                {% else %}
+                  No Country available
+                {% endif %}
+            </td>
+          </tr>
+          <tr>
+            <td class="border-0 p-4 "><strong>Birth Date: </strong></td>
+            <td class="border-0 p-4 " style="background-color: #5585b5; color: white">
+                {% if user.Birth_date %}
+                {{ user.Birth_date }}
+                {% else %}
+                 No birth date available
+                {% endif %}
+            </td>
+          </tr>
+
+             <tr>
+            <td class="border-0 p-4 "><strong>Facebook Profile: </strong></td>
+            <td class="border-0 p-4 " style="background-color: #5585b5; color: white">
+                {% if user.facebook_profile %}
+                {{ user.facebook_profile }}
+                {% else %}
+                No facebook profile available
+                {% endif %}
+            </td>
+          </tr>
+        </table>
+      </div>
+      <!-- End Full Info -->
+    </div>
+  </div>
+
+
+
+     <!-- Start Body -->
+    <div class="container">
+        <div class="add-product pt-5 text-end">
+          <a href="" class="fs-4 text-decoration-none " style="color: #5585b5;"><i class="fa-regular fa-square-plus"></i></a>
+        </div>
+        <div class="row row-cols-lg-4 row-cols-md-2 row-cols-1 pt-3 pb-5">
+        {% for project in projects %}
+         <div class="card border-0 mb-3 ">
+          <img src="" class="card-img-top rounded-3 mb-2" height="370">
+            <div class="card-body text-center p-0 ">
+               <h5 class="card-title">{{project.name}}</h5>
+               <div class="d-flex justify-content-between  ">
+               <a href="" style="color: #5585b5;"><i class="fa-solid fa-eye"></i></a>
+                    <a href="" style="color: #5585b5;"><i class="fa-regular fa-pen-to-square"></i></a>
+                   <a href="" class="text-danger"><i class="fa-solid fa-trash"></i></a>
+               </div>
+              </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      <!-- End Body -->
+
+{% endblock %}
