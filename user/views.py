@@ -2,6 +2,10 @@ from django.shortcuts import render, redirect, HttpResponse
 import re  # Import the 're' module for regular expressions
 from django.contrib import messages
 from django.core.mail import send_mail  # Add this import
+from django.utils import timezone
+from django.conf import settings
+import jwt
+from datetime import  timedelta
 
 from user.models import User
 # Create your views here.
@@ -88,17 +92,35 @@ def register(request):
 def login(request):
     return render(request, "user/login.html")
 
-def activate(request, token):
-    # You may want to add error handling for expired or invalid tokens
-    # For example, check if the token has expired or doesn't match any user in the database
-
-    try:
-        user = User.objects.get(token=token)
-        user.is_active = True
-        user.save()
-        return render(request, 'user/activation_success.html')
-    except User.DoesNotExist:
-        return render(request, 'user/activation_error.html')
-
 def activation_instructions(request):
     return render(request, 'user/activation_instructions.html')
+
+
+def activate(request, token):
+    try:
+        # Decode the token to extract the email
+        decoded_token = jwt.decode(token, settings.SECRET_KEY, algorithms=['HS256'])
+        email = decoded_token['email']
+        print(email)
+        # Find the user by their email
+        user = User.objects.get(email=email)
+        expiration_time = user.created_at + timedelta(hours=24)
+        # Check if the token has expired
+        if expiration_time and expiration_time < timezone.now():
+            # Token has expired, handle this case as needed (e.g., show an error message)
+            return render(request, 'user/activation_error.html', {'error_message': 'Activation link has expired.'})
+        # Token is valid, activate the user
+        user.is_active = True
+        user.save()
+
+        # Redirect to a success page
+        return render(request, 'user/activation_success.html')
+    except jwt.ExpiredSignatureError:
+        # Token has expired, handle this case as needed (e.g., show an error message)
+        return render(request, 'user/activation_error.html', {'error_message': 'Activation link has expired.'})
+    except jwt.DecodeError:
+        # Token is invalid, handle this case as needed (e.g., show an error message)
+        return render(request, 'user/activation_error.html', {'error_message': 'Invalid activation link.'})
+    except User.DoesNotExist:
+        # User not found, handle this case as needed (e.g., show an error message)
+        return render(request, 'user/activation_error.html', {'error_message': 'User not found.'})
