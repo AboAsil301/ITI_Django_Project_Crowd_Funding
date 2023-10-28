@@ -5,4 +5,5 @@ urlpatterns = [
   # path('',index, name='projects.index'),
     path('register/', register, name='register'),
     path('login/', login, name='login'),
+    path('activation_instructions/', activation_instructions, name='activation_instructions'),
 ]

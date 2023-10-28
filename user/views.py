@@ -99,3 +99,6 @@ def activate(request, token):
         return render(request, 'user/activation_success.html')
     except User.DoesNotExist:
         return render(request, 'user/activation_error.html')
+
+def activation_instructions(request):
+    return render(request, 'user/activation_instructions.html')
