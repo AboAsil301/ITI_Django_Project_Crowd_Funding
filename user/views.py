@@ -98,6 +98,9 @@ def activation_instructions(request):
 def activation_success(request):
     return render(request, 'user/activation_success.html')
 
+def activation_error(request):
+    return render(request, 'user/activation_error.html')
+
 def activate(request, token):
     try:
         # Decode the token to extract the email
@@ -110,7 +113,11 @@ def activate(request, token):
         # Check if the token has expired
         if expiration_time and expiration_time < timezone.now():
             # Token has expired, handle this case as needed (e.g., show an error message)
-            return render(request, 'user/activation_error.html', {'error_message': 'Activation link has expired.'})
+            # return render(request, 'user/activation_error.html', {'error_message': 'Activation link has expired.'})
+            messages.error(request, 'Activation link has expired.')
+            return redirect('activation_error')
+
+
         # Token is valid, activate the user
         user.is_active = True
         user.save()
@@ -119,10 +126,16 @@ def activate(request, token):
         return redirect('activation_success')
     except jwt.ExpiredSignatureError:
         # Token has expired, handle this case as needed (e.g., show an error message)
-        return render(request, 'user/activation_error.html', {'error_message': 'Activation link has expired.'})
+        # return render(request, 'user/activation_error.html', {'error_message': 'Activation link has expired.'})
+        messages.error(request, 'Activation link has expired.')
+        return redirect('activation_error')
     except jwt.DecodeError:
         # Token is invalid, handle this case as needed (e.g., show an error message)
-        return render(request, 'user/activation_error.html', {'error_message': 'Invalid activation link.'})
+        # return render(request, 'user/activation_error.html', {'error_message': 'Invalid activation link.'})
+        messages.error(request, 'Invalid activation link.')
+        return redirect('activation_error')
     except User.DoesNotExist:
         # User not found, handle this case as needed (e.g., show an error message)
-        return render(request, 'user/activation_error.html', {'error_message': 'User not found.'})
+        # return render(request, 'user/activation_error.html', {'error_message': 'User not found.'})
+        messages.error(request, 'User not found.')
+        return redirect('activation_error')

@@ -1,10 +1,70 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>activation_error</title>
+
+    <!-- Font Icon -->
+    {#    <link rel="stylesheet" href="fonts/material-icon/css/material-design-iconic-font.min.css">#}
+    <link rel="stylesheet"
+          href="{% static 'user/colorlib-regform-7/fonts/material-icon/css/material-design-iconic-font.min.css' %}">
+    <!-- Main css -->
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'fontawesome/css/all.min.css' %}">
+    {#    <link rel="stylesheet" href="css/style.css">#}
+    <link rel="stylesheet" href="{% static 'user/colorlib-regform-7/css/style.css' %}">
+
 </head>
 <body>
-<h1>activation_error</h1>
+
+<div class="main">
+
+    <!-- Sing in  Form -->
+    <section class="sign-in">
+        <div class="container">
+            <div class="signin-content">
+                <div class="signin-image">
+                    <figure><img src="{% static 'user/colorlib-regform-7/images/activation-error.jpg' %}"
+                                 alt="sing up image"></figure>
+
+
+
+                </div>
+
+                <div class="signin-form">
+                    <h2 class="form-title">Inactived</h2>
+
+                    <h4 class="alert alert-danger  text-center">Activation Failed</h4>
+                    <!-- Add error message placeholders for each field -->
+                    {% if messages %}
+                        {% for message in messages %}
+                            {#                                <div class=" ">{{ message }}</div>#}
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                {{ message }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                        aria-label="Close"></button>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+
+                    <p >Your account activation has failed. Please check your activation link or contact support. You can now Sign up.</p>
+                    <a class="btn btn-outline-primary  mt-5  display-flex-center"  href="{% url 'register' %}"
+                       class="signup-image-link">Go to => Sign up</a>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+</div>
+
+<!-- JS -->
+{#    <script src="vendor/jquery/jquery.min.js"></script>#}
+<script src="{% static 'user/colorlib-regform-7/vendor/jquery/jquery.min.js' %}"></script>
+{#    <script src="js/main.js"></script>#}
+<script src="{% static 'bootstrap/js/bootstrap.js' %}"></script>
 </body>
 </html>

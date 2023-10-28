@@ -7,5 +7,6 @@ urlpatterns = [
     path('login/', login, name='login'),
     path('activation_instructions/', activation_instructions, name='activation_instructions'),
     path('activate/<str:token>/', activate, name='activate'),
-    path('activation_success/', activation_success, name='activation_success')
+    path('activation_success/', activation_success, name='activation_success'),
+    path('activation_error/', activation_error, name='activation_error'),
 ]
