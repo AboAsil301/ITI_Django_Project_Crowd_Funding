@@ -1,0 +1,27 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+{% block title %} Delete  {% endblock %}
+{% block body %}
+  <link href="{% static 'accounts/css/master.css' %}" rel="stylesheet">
+  <!-- Start Body -->
+  <div class="container p-5 shadow-lg rounded-3 bg-white" style="width: 900px; margin: 102px auto;">
+    <div class="row align-items-center justify-content-between ">
+      <img src="{% static 'accounts/images/delete.jpg' %}" class="col-4" style="width: 200px;"/>
+      <div class="col-8">
+        <form method="post"  enctype="multipart/form-data">
+          {% csrf_token %}
+          <p class="fw-semibold fs-4 text-center ">
+            Are You Sure You Want To Delete Your Profile!
+          </p>
+          <div class="text-center">
+            <button type="submit" class="btn btn-danger text-white me-3 px-4">Yes</button>
+            <a href="{% url 'profile' user_id=user.id %}" class="btn btn-dark text-white px-4">No</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="{% static 'accounts/js/script.js' %}"></script>
+  <!-- End Body -->
+{% endblock %}

@@ -9,7 +9,6 @@ from datetime import  timedelta
 from django.contrib.auth import authenticate, login as auth_login
 from user.models import User
 
-
 # Create your views here.
 def register(request):
     # print(request)
@@ -180,3 +179,46 @@ def activate(request, token):
 def profile(request,user_id):
     user = User.objects.get(id=user_id)
     return render(request, 'user/profile.html/', {'user': user})
+
+def edit(request, pk):
+    # Retrieve the user instance from the database based on the primary key (pk)
+    user = User.objects.get(id=pk)
+
+    if request.method == 'POST':
+        # Update the user instance with the data from the form
+        user.first_name = request.POST['first_name']
+        user.last_name = request.POST['last_name']
+        user.password = request.POST['password']
+        user.mobile_phone = request.POST['mobile_phone']
+        user.country = request.POST['country']
+        user.Birth_date = request.POST['Birth_date']
+        user.facebook_profile = request.POST['facebook_profile']
+
+        # Check for profile image file and update if provided
+        profile_image = request.FILES.get('profile_image')
+        if profile_image:
+            user.profile_image = profile_image
+
+        # Save the updated user instance to the database
+        user.save()
+
+        # Add a success message
+        messages.success(request, 'Profile updated successfully.')
+
+        # Redirect to the user's profile page
+        return redirect('profile', user_id=user.id)
+
+    # Render the edit form with the user's data
+    return render(request, 'user/edit.html', {'user': user})
+
+
+def delete(request, pk):
+    user = User.objects.get(id=pk)
+
+    if request.method == 'POST':
+        # Delete the user from the database
+        user.delete()
+        messages.success(request, 'Your profile has been deleted.')
+        return redirect('login')  # Redirect to the login page or any other appropriate page
+
+    return render(request, 'user/delete.html', {'user': user})
