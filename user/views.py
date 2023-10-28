@@ -95,6 +95,8 @@ def login(request):
 def activation_instructions(request):
     return render(request, 'user/activation_instructions.html')
 
+def activation_success(request):
+    return render(request, 'user/activation_success.html')
 
 def activate(request, token):
     try:
@@ -114,7 +116,7 @@ def activate(request, token):
         user.save()
 
         # Redirect to a success page
-        return render(request, 'user/activation_success.html')
+        return redirect('activation_success')
     except jwt.ExpiredSignatureError:
         # Token has expired, handle this case as needed (e.g., show an error message)
         return render(request, 'user/activation_error.html', {'error_message': 'Activation link has expired.'})
