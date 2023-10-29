@@ -1,7 +1,9 @@
 from django.shortcuts import render, redirect
-from projects.models import Projects,Pictures,Tags
+from projects.models import Projects,Pictures,Tags,Categories
 from projects.forms import CategoryForm, ProjectForm
 from user.models import User
+from django.db.models import Q
+
 # from django.contrib.auth.decorators import login_required
 # Create your views here.
 def index(request):
@@ -60,9 +62,41 @@ def index(request):
     return render(request, 'projects/index.html', {'projects': projects})
 
 
+
 def details(request, project_id):
     project = Projects.objects.get(id=project_id)
     # Get all images related to the project
     images = Pictures.objects.filter(project=project)
 
     return render(request, 'projects/project-details.html', {'project': project, 'images': images})
+
+
+
+
+def homepage(request):
+    # Retrieve highest-rated projects
+    highest_rated_projects = Projects.objects.filter(is_running=True).order_by('-rate')[:5]
+
+    # Retrieve latest projects
+    latest_projects = Projects.objects.filter(is_running=True).order_by('-created_at')[:5]
+
+    # Retrieve latest featured projects
+    featured_projects = Projects.objects.filter(is_running=True, is_featured=True).order_by('-selected_at_by_admin')[:5]
+
+    # Retrieve all project categories
+    categories = Categories.objects.all()
+
+    context = {
+        'highest_rated_projects': highest_rated_projects,
+        'latest_projects': latest_projects,
+        'featured_projects': featured_projects,
+        'categories': categories,
+    }
+    return render(request, 'projects/homepage.html', context)
+
+def search(request):
+    query = request.GET.get('query')
+    # Perform a search based on the query (project title or tag)
+    results = Projects.objects.filter(Q(title__icontains=query) | Q(tags__tag__icontains=query), is_running=True)
+    context = {'query': query, 'results': results}
+    return render(request, 'projects/search_results.html', context)
