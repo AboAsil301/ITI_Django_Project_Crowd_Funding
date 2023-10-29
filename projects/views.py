@@ -58,3 +58,11 @@ def create_category(request):
 def index(request):
     projects = Projects.objects.all()
     return render(request, 'projects/index.html', {'projects': projects})
+
+
+def details(request, project_id):
+    project = Projects.objects.get(id=project_id)
+    # Get all images related to the project
+    images = Pictures.objects.filter(project=project)
+
+    return render(request, 'projects/project-details.html', {'project': project, 'images': images})

@@ -7,5 +7,5 @@ urlpatterns = [
   path('projects/create/<int:user_id>', create_project, name='projects.create'),
   path('categories/create/', create_category, name='categories.create'),
   path('accounts/login/',login, name='login'),
-
+  path('details/<int:project_id>', details, name='details'),
 ]

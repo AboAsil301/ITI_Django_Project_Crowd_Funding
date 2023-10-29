@@ -1,0 +1,58 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+{% block title %} Project Details {% endblock %}
+{% block body %}
+
+    <link href="{% static 'projects/css/master.css' %}" rel="stylesheet">
+    <!-- Main css -->
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'fontawesome/css/all.min.css' %}">
+    <!-- Start Body -->
+    <div class="container p-5 my-5 shadow-lg rounded-3 bg-white">
+    <div class="row align-items-center">
+        <div class="col-md-6">
+            <div id="carouselExampleDark" class="carousel carousel-dark slide">
+                <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active"
+                            aria-current="true" aria-label="Slide 1"></button>
+                    <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1"
+                            aria-label="Slide 2"></button>
+                    <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2"
+                            aria-label="Slide 3"></button>
+                </div>
+                <div class="carousel-inner">
+                    {% for image in images %}
+                        <div class="carousel-item {% if forloop.first %}active{% endif %}" data-bs-interval="10000">
+                            <img src="{{ image.image.url }}" class="d-block" width="400px" height="400px"
+                                 alt="Project Image">
+                        </div>
+                    {% endfor %}
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark"
+                            data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark"
+                            data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+
+            </div>
+ </div>
+            <div class="col-md-6">
+                <h2>{{ project.title }}</h2>
+                <p>{{ project.details }}</p>
+                <p>Total Target: ${{ project.total_target }}</p>
+                <p>Current Donation: ${{ project.current_donation }}</p>
+                <!-- Add more project details as needed -->
+            </div>
+        </div>
+    </div>
+
+
+    <script src="{% static 'projects/js/script.js' %}"></script>
+    <script src="{% static 'bootstrap/js/bootstrap.js' %}"></script>
+    <!-- End Body -->
+{% endblock %}
