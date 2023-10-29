@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from projects.models import Projects
+from projects.models import Projects,Pictures,Tags
 from projects.forms import CategoryForm, ProjectForm
 from user.models import User
 # from django.contrib.auth.decorators import login_required
@@ -18,7 +18,27 @@ def create_project(request, user_id):
             project = form.save(commit=False)
             project.owner = user # Set the project owner as the currently logged-in user
             project.save()
+
+            # Process and associate uploaded images
+            for image in request.FILES.getlist('images'):
+                pic = Pictures(image=image, project=project)
+                pic.save()
+
+            # Process and split the tags
+            tags = request.POST.get('tags')  # Get the tags field from the POST data
+           # print(tags)
+
+            tag_list = [tag.strip() for tag in tags.split(',')]  # Split tags by comma
+           # print(tag_list)
+            for tag in tag_list:
+                tag_obj = Tags(tag=tag, project=project)
+                tag_obj.save()
+
+
+
+            # Redirect to the created project
             return redirect('projects.index')
+
     else:
         form = ProjectForm()
 
