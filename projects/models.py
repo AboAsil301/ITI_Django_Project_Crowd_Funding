@@ -15,13 +15,12 @@ class Categories(models.Model):
 
 
 #			          Project                          	#
-
 class Projects(models.Model):
     title = models.CharField(max_length=250, unique=True)
     details = models.TextField()
-    rate = models.IntegerField()
+    rate = models.IntegerField(default=0)
     total_target = models.IntegerField()
-    current_donation = models.IntegerField()
+    current_donation = models.IntegerField(default=0)
     start_campaign = models.DateTimeField(default=timezone.now)
     end_campaign = models.DateField()
     created_at = models.DateTimeField(default=timezone.now)

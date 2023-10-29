@@ -22,6 +22,18 @@
       </div>
       {% endfor %}
     </div>
+
+  <h1>Projects</h1>
+    <ul>
+        {% for project in projects %}
+            <li>
+                <a href="">{{ project.title }}</a>
+                - {{ project.category }}
+            </li>
+        {% endfor %}
+    </ul>
+{#    <a href="{% url 'projects.create' %}">Create a Project</a>#}
+    <a href="{% url 'categories.create' %}">Create a Category</a>
   </div>
   <!-- End Body -->
 {% endblock %}

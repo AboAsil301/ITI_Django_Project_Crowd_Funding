@@ -41,6 +41,9 @@ INSTALLED_APPS = [
     ############################
     'projects.apps.ProjectsConfig',
     'user.apps.UserConfig',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
 
 ]
 
@@ -52,6 +55,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'allauth.account.middleware.AccountMiddleware',
 ]
 
 MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
@@ -61,7 +65,7 @@ ROOT_URLCONF = 'Crowd_Funding.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'DIRS': [os.path.join(BASE_DIR, 'User', 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -159,3 +163,16 @@ EMAIL_USE_TLS = True  # Change this based on your email provider's requirements
 # EMAIL_HOST_PASSWORD = 'your email password (a password for the application from your email)'  # Your email password
 EMAIL_HOST_USER = 'ahmedredaabdelbaset@gmail.com'  # Your email address
 EMAIL_HOST_PASSWORD = 'xgah anye ywpd gfpg'  # Your email password
+
+
+
+# settings.py
+
+AUTHENTICATION_BACKENDS = (
+    # ...
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
+
+SITE_ID = 1
+
+LOGIN_REDIRECT_URL = '/user/login'  # Change this to your desired URL

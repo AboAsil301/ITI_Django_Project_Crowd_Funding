@@ -19,11 +19,13 @@ from django.urls import path,include
 from projects.views import index
 from django.conf import settings
 from django.conf.urls.static import static
+from user.views import register
 urlpatterns = [
-    path('', index, name='projects.index'),
+    path('', register, name='projects.index'),
     path('admin/', admin.site.urls),
     path('project/', include('projects.urls')),
     path('user/', include('user.urls')),
+    # path('accounts/', include('allauth.urls'))
 
 ]
 

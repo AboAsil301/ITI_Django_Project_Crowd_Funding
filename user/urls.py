@@ -1,5 +1,6 @@
-from django.urls import path
+from django.urls import path,include
 from user.views import *
+from . import views
 from django.contrib.auth.decorators import login_required
 urlpatterns = [
   # path('',index, name='projects.index'),
@@ -11,6 +12,8 @@ urlpatterns = [
     path('activation_error/', activation_error, name='activation_error'),
     path('profile/<int:user_id>', profile, name='profile'),
     path('<int:pk>/edit', edit, name='edit'),
-    path('<int:pk>/delete', delete, name='delete')
+    path('<int:pk>/delete', delete, name='delete'),
+    # path('', include('django.contrib.auth.urls')),
+    # path('registration/login/', views.login, name='login'),
 
 ]
