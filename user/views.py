@@ -8,6 +8,7 @@ import jwt
 from datetime import  timedelta
 from django.contrib.auth import authenticate, login as auth_login
 from user.models import User
+from projects.models import Projects , Pictures
 
 # Create your views here.
 def register(request):
@@ -178,7 +179,9 @@ def activate(request, token):
 
 def profile(request,user_id):
     user = User.objects.get(id=user_id)
-    return render(request, 'user/profile.html/', {'user': user})
+    user_projects = Projects.objects.filter(owner=user)
+    images = Pictures.objects.filter(project__in=user_projects)
+    return render(request, 'user/profile.html/', {'user': user ,'user_projects': user_projects, 'images': images})
 
 def edit(request, pk):
     # Retrieve the user instance from the database based on the primary key (pk)

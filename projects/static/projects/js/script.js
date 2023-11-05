@@ -1,4 +1,10 @@
 document.addEventListener("DOMContentLoaded", function() {
+// document.getElementById('myFormElement').addEventListener('click', function () {
+    // Form-specific behavior
+// });
+if (document.getElementById('create-project-form')) {
+    // Your JavaScript code for the form page
+
 
 spans = document.querySelectorAll('span');
 for (var j = 0; j < spans.length; j++) {
@@ -61,7 +67,6 @@ for (var i = 0; i < helpText.length; i++) {
 }
 
 
-// Select elements should be targeted using 'select' not 'input[type="select"]'
 const selects = document.querySelectorAll('select');
 for (let i = 0; i < selects.length; i++) {
     selects[i].classList.add('form-select');
@@ -70,6 +75,24 @@ for (let i = 0; i < selects.length; i++) {
 const textareas = document.querySelectorAll('textarea');
 for (let i = 0; i < textareas.length; i++) {
     textareas[i].classList.add('form-control');
+}
+
+const stars = document.querySelectorAll(".star");
+const selectedRating = document.getElementById("selectedRating");
+
+    stars.forEach((star) => {
+        star.addEventListener("click", () => {
+            const rating = parseInt(star.getAttribute("data-rating"));
+            selectedRating.textContent = rating;
+            // You can send the rating to the server using AJAX if needed
+        });
+    });
+
+ $("#rateYo").rateYo({
+    rating: 3.6
+  });
+
+
 }
 
 });

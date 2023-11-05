@@ -28,6 +28,7 @@ class Projects(models.Model):
     category = models.ForeignKey(Categories, on_delete=models.CASCADE)
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
 
+
     def __str__(self):
         return self.title
 

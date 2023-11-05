@@ -3,7 +3,7 @@ from projects.views import *
 from user.views import login
 from django.contrib.auth import views as auth_views
 urlpatterns = [
-  path('',index, name='projects.index'),
+  path('<int:user_id>',index, name='projects.index'),
   path('homepage', homepage, name='homepage'),
   path('search', search, name='search'),
   path('projects/create/<int:user_id>', create_project, name='projects.create'),

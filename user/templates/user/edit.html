@@ -28,7 +28,6 @@
         <div class="container">
             <div class="signup-content">
                 <div class="signup-image ">
-                    {#                        <figure><img src="images/signup-image.jpg" alt="sing up image"></figure>#}
                     <figure><img src="{% static 'user/colorlib-regform-7/images/Edit.jpg' %}" class="col-6"
                                  width="500"/></figure>
                     <a href="{% url 'profile' user.id %}" class="signup-image-link"> Go to => Profile</a>
@@ -38,11 +37,10 @@
                      <!-- Add error message placeholders for each field -->
                         {% if messages %}
                             {% for message in messages %}
-{#                                <div class=" ">{{ message }}</div>#}
                                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
-    {{ message }}
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-</div>
+                                    {{ message }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
                             {% endfor %}
                         {% endif %}
                     <form method="POST" enctype="multipart/form-data" class="register-form" id="register-form">
@@ -98,17 +96,11 @@
                                    minlength="3" pattern="https?://www.facebook.com/.+" title="Please enter a facebook profile link"/>
                         </div>
 
-                        {#                        <div class="form-group">#}
-                        {#                            <input type="checkbox" name="agree-term" id="agree-term" class="agree-term"/>#}
-                        {#                            <label for="agree-term" class="label-agree-term"><span><span></span></span>I agree all#}
-                        {#                                statements in <a href="#" class="term-service">Terms of service</a></label>#}
-                        {#                        </div>#}
                         <div class="form-group form-button">
                             <input type="submit" name="signup" id="signup" class="form-submit" value="Update"/>
                         </div>
                     </form>
                 </div>
-
             </div>
         </div>
     </section>
@@ -116,9 +108,7 @@
 </div>
 
 <!-- JS -->
-{#    <script src="vendor/jquery/jquery.min.js"></script>#}
 <script src="{% static 'user/colorlib-regform-7/vendor/jquery/jquery.min.js' %}"></script>
-{#    <script src="js/main.js"></script>#}
 <script src="{% static 'user/colorlib-regform-7/js/main.js' %}"></script>
 <script src="{% static 'bootstrap/js/bootstrap.js' %}"></script>
 

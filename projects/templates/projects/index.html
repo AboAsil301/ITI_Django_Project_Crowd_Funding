@@ -3,69 +3,26 @@
 {% block title %} Create Project  {% endblock %}
 {% block body %}
 
-    <link href="{% static 'projects/css/master.css' %}" rel="stylesheet">
-    <!-- Start Body -->
-    <div class="container p-5 my-5 shadow-lg rounded-3 bg-white">
-        <div class="row align-items-center">
-            <img src="{% static 'projects/images/1.avif' %}" class="col-6" width="300"/>
-            <div class="col-6 pb-5">
-                <form method="POST" enctype="multipart/form-data">
-                    {% csrf_token %}
-
-                    <h1>Create a Project</h1>
-                    <div class="row">
-                        <div class="col-12">
-                            {{ form.title.label_tag }}
-                            {{ form.title }}
-                        </div>
-
-
-                        <div class="col-12 mb-3" style=" height:10px;">
-                            {{ form.details.label_tag }}
-                        </div>
-
-                        <div class="col-12 mt-3">
-
-                            {{ form.details }}
-                        </div>
-
-
-                        <div class="col-6 mb-1">
-                            {{ form.total_target.label_tag }}
-                            {{ form.total_target }}
-                        </div>
-                        <div class="col-6 mb-1">
-                            {{ form.category.label_tag }}<br/>
-                            {{ form.category }}
-                        </div>
-
-                        <div class="col-6 mb-1">
-                            {{ form.start_campaign.label_tag }}
-                            {{ form.start_campaign }}
-                        </div>
-                        <div class="col-6 mb-1">
-                            {{ form.end_campaign.label_tag }}
-                            {{ form.end_campaign }}
-                        </div>
-                    </div>
-                    <!-- Add this input to your form to allow multiple image uploads -->
-                    <div class="col-12">
-                        <label for="images" class="form-label">Images:</label>
-                        <input type="file" class="form-control" id="images" multiple name="images" />
-                    </div>
-
-                    <div class="col-12">
-                        <label for="tags" class="form-label">Tags: </label>
-                        <input type="text" class="form-control" id="tags" name="tags" placeholder="Enter Tags like => tag1,tag2,tag3" />
-                    </div>
-
-                    <button type="submit" class="btn text-white mt-2" style="background-color: #5585b5;">Submit</button>
-                </form>
+     <!-- Start Body -->
+    <div class="container">
+{#        <div class="add-product pt-5 text-end">#}
+{#          <a href="{% url 'projects.create' user_id=user.id %}" class="fs-4 text-decoration-none " style="color: #5585b5;"><i class="fa-regular fa-square-plus"></i></a>#}
+{#        </div>#}
+        <div class="row row-cols-lg-4 row-cols-md-2 row-cols-1 pt-3 pb-5">
+        {% for project in projects %}
+         <div class="card border-0 mb-3 ">
+          <img src="{{project.images.first.image.url}}" class="card-img-top rounded-3 mb-2" height="370">
+            <div class="card-body text-center p-0 ">
+               <h5 class="card-title">{{project.title}}</h5>
+               <div class="d-flex justify-content-center  ">
+               <a href="{% url 'details' project.id %}" style="color: #5585b5;"><i class="fa-solid fa-eye"></i></a>
+{#                    <a href="" style="color: #5585b5;"><i class="fa-regular fa-pen-to-square"></i></a>#}
+{#                   <a href="" class="text-danger"><i class="fa-solid fa-trash"></i></a>#}
+               </div>
             </div>
+          </div>
+          {% endfor %}
         </div>
-    </div>
-
-    <script src="{% static 'projects/js/script.js' %}"></script>
-
-    <!-- End Body -->
+      </div>
+      <!-- End Body -->
 {% endblock %}

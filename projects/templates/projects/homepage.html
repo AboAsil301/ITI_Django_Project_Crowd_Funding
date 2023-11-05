@@ -1,91 +1,116 @@
 {% extends 'layouts/base.html' %}
 {% load static %}
-{% block title %} Homepage  {% endblock %}
+{% block title %}Homepage{% endblock %}
 {% block body %}
-
-    <link href="{% static 'projects/css/master.css' %}" rel="stylesheet">
-    <!-- Start Body -->
-    <div class="container p-5 my-5 shadow-lg rounded-3 bg-white">
-        <div class="row align-items-center">
-
-         <!-- Slider for Highest Rated Projects -->
-  <div id="carouselHighestRated" class="carousel slide" data-ride="carousel">
+<div class="container-fluid px-0">
+  <div id="carouselExampleControlsNoTouching" class="carousel slide" data-bs-touch="false" data-bs-interval="false">
     <div class="carousel-inner">
       {% for project in highest_rated_projects %}
-        <div class="carousel-item {% if forloop.first %}active{% endif %}">
-          <img src="{{ project.images.first.image.url }}" alt="{{ project.title }}" class="d-block w-100">
-          <div class="carousel-caption d-none d-md-block">
-            <h5>{{ project.title }}</h5>
-            <p>{{ project.details }}</p>
+      <div class="carousel-item {% if forloop.counter0 == 0 %}active{% endif %} position-relative ">
+        <img src="{{ project.images.first.image.url  }}" class="d-block " alt="..." width="100%" height="400px">
+        <div class="carousel-caption d-none d-md-block text-light py-0">
+          <h3>{{project.title}}</h3>
+          <a href="{% url 'details'  project.id %}" class="carousel-link btn text-light fs-4"><i class="fa-solid fs-5 fa-circle-info"></i></a>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControlsNoTouching" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControlsNoTouching" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+</div>
+<!-- End Slider -->
+<div class="container py-5">
+
+  <!-- Start Last 5 Project -->
+  <div class="container pb-5">
+    <p style="color: #767676!important;">Where You Can Help</p>
+    <h2 class="mb-4">Recently Added</h2>
+    <div class="row row-cols-1 row-cols-md-5 justify-content-center g-4">
+      {% for project in latest_projects %}
+        <div class="col">
+          <div class="card border-0 shadow-sm bg-light">
+            <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
+              <div class="carousel-inner">
+                {% for image in project.images.all %}
+                <div class="carousel-item {% if forloop.counter0 == 0 %}active{% endif %}">
+                  <img src="{{ image.image.url }}" class="d-block w-100 rounded-3" alt="..." style="height: 200px;">
+                </div>
+                {% endfor %}
+              </div>
+            </div>
+
+            <div class="card-body">
+              <h5 class="card-title"><span class="truncated">{{ project.title|slice:":20" }}</span></h5>
+              <p class="card-text "><small style="font-weight: 500;">Will Finish At: <br></small ><small class="text-body-secondary">{{ project.end_campaign|date:'m - d - Y' }}</small></p>
+              <div class="d-flex justify-content-between align-items-end mt-4">
+                <a href="{% url 'details' project.id %}" class="btn text-success p-0"><i class="fa-solid fa-hand-holding-dollar"></i></a>
+                {% if user == project.created_by or user.is_superuser %}
+                <a href="{% url 'details' project.id%}" class="btn text-success p-0"><i class="fa-regular fa-pen-to-square"></i></a>
+                <a href="{% url 'details' project.id%}" class="btn text-danger p-0"><i class="fa-solid fa-x"></i></a>
+                {% endif %}
+                <a href="{% url 'details' project.id %}" class="btn text-success p-0"><i class="fa-solid fa-circle-info"></i></a>
+              </div>
+            </div>
           </div>
         </div>
       {% endfor %}
     </div>
-    <a class="carousel-control-prev" href="#carouselHighestRated" role="button" data-slide="prev">
-      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-      <span class="sr-only">Previous</span>
-    </a>
-    <a class="carousel-control-next" href="#carouselHighestRated" role="button" data-slide="next">
-      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-      <span class="sr-only">Next</span>
-    </a>
   </div>
+  <!-- End Last 5 Project -->
 
-<!-- List of Latest Projects -->
-<div class="latest-projects">
-     <!-- List of Latest Projects -->
-  <h2>Latest Projects</h2>
-  <ul>
-    {% for project in latest_projects %}
-      <li>{{ project.title }}</li>
-    {% endfor %}
-  </ul>
-</div>
+  <!-- Start Last 5 Featured Project -->
+  <div class="container py-5">
+    <h2 class="mb-4">Featured Project</h2>
+    <div class="row row-cols-1 row-cols-md-5 justify-content-center g-4">
+      {% for project in featured_projects %}
 
+        <div class="col">
+          <div class="card border-0 shadow-sm bg-light">
+            <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
+              <div class="carousel-inner">
+                {% for image in project.images.all %}
+                <div class="carousel-item {% if forloop.counter0 == 0 %}active{% endif %}">
+                  <img src="{{ image.image.url }}" class="d-block w-100 rounded-3" alt="..." style="height: 200px;">
+                </div>
+                {% endfor %}
+              </div>
+            </div>
 
-<!-- List of Latest Featured Projects -->
-<div class="featured-projects">
-<!-- List of Latest Featured Projects -->
-  <h2>Featured Projects</h2>
-  <ul>
-    {% for project in featured_projects %}
-      <li>{{ project.title }}</li>
-    {% endfor %}
-  </ul>
-</div>
-
-<!-- List of Latest Featured Projects -->
-  <h2>Featured Projects</h2>
-  <ul>
-    {% for project in featured_projects %}
-      <li>{{ project.title }}</li>
-    {% endfor %}
-  </ul>
-
-<!-- List of Categories -->
-<div class="categories">
-     <!-- List of Categories -->
-  <h2>Categories</h2>
-  <ul>
-    {% for category in categories %}
-      <li><a href="{% url 'category' category.id %}">{{ category.name }}</a></li>
-    {% endfor %}
-  </ul>
-
-</div>
-
-<!-- Search Bar -->
-<form method="GET" action="{% url 'search' %}">
-    <input type="text" name="query" placeholder="Search by title or tag">
-    <button type="submit">Search</button>
-</form>
-
-
-
+            <div class="card-body">
+              <h5 class="card-title"><span class="truncated">{{ project.title|slice:":20" }}</span></h5>
+              <p class="card-text"><small style="font-weight: 500;">Finish At:<br> </small><small class="text-body-secondary">{{ project.end_campaign|date:'m - d - Y' }}</small></p>
+              <div class="d-flex justify-content-between align-items-end mt-4">
+                <a href="{% url 'details' project.id %}" class="btn text-success p-0"><i class="fa-solid fa-hand-holding-dollar"></i></a>
+                {% if user == project.created_by or user.is_superuser %}
+                <a href="{% url 'details' project.id%}" class="btn text-success p-0"><i class="fa-regular fa-pen-to-square"></i></a>
+                <a href="{% url 'details' project.id%}" class="btn text-danger p-0"><i class="fa-solid fa-x"></i></a>
+                {% endif %}
+                <a href="{% url 'details' project.id %}" class="btn text-success p-0"><i class="fa-solid fa-circle-info"></i></a>
+              </div>
+            </div>
+          </div>
         </div>
+      {% endfor %}
     </div>
+  </div>
+  <!-- End Last 5 Featured Project -->
 
-    <script src="{% static 'projects/js/script.js' %}"></script>
-
-    <!-- End Body -->
+  <!-- Start Categories -->
+  <div class="container-fluid p-5 shadow-sm rounded-3 bg-light">
+    <h2 class="mb-4">Our Categories</h2>
+    {% for category in  categories %}
+      <a href="{% url 'details' category.id %}" class="btn btn-outline-success mb-3 me-1">
+        {{category}}
+      </a>
+    {% endfor %}
+  </div>
+  <!-- End Categories -->
+</div>
 {% endblock %}
